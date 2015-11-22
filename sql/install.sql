@@ -168,3 +168,16 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2015-11-18 17:03:25
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `to` varchar(255) NOT NULL DEFAULT '',
+  `from_email` varchar(255) NOT NULL DEFAULT '',
+  `from_name` varchar(255) NOT NULL DEFAULT '',
+  `subject` varchar(255) NOT NULL DEFAULT '',
+  `message` text NOT NULL,
+  `type` varchar(20) NOT NULL DEFAULT '',
+  `status` enum('queued','sent','error','') NOT NULL DEFAULT 'queued',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
