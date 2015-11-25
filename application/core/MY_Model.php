@@ -34,6 +34,16 @@ class MY_model extends CI_Model {
         }
     }
 
+    // Helper debug function to dump the last query
+    protected function debugLastQuery($exit = false) {
+        echo "<pre>";
+        echo $this->db->last_query();
+        echo "</pre>";
+        if($exit) {
+            exit;
+        }
+    }
+
     // Function to disable our first line current request caching
     public function disableCache() {
         $this->cache_lookups = false;
@@ -99,10 +109,17 @@ class MY_model extends CI_Model {
         return false;
     }
 
-    // Method to get rows from the database based on our current table and optionally passed in where array
-    public function getRows($where, $table = null, $order = null) {
+    // Method to generically get rows from the database based on our current table and various options
+    public function getRows($where, $table = null, $order = null, $limit = null) {
         if(!empty($order)) {
             $this->db->order_by($order);
+        }
+        if(is_array($limit)) {
+            if(count($limit) == 1) {
+                $this->db->limit($limit[0]);
+            } else {
+                $this->db->limit($limit[0], $limit[1]);
+            }
         }
         $query = $this->db->get_where($this->getTableName($table), $where);
         return $query->result_array();
