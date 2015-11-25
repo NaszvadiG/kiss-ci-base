@@ -125,6 +125,12 @@ class MY_model extends CI_Model {
         return $query->result_array();
     }
 
+    // Method to get a row count based on our current table and optionally passed in where array
+    public function getRowsCount($where = array(), $table = null) {
+        $this->db->where($where);
+        return $this->db->count_all_results($this->getTableName($table));
+    }
+
     // Method to set a row into a database table.  Either insert or update based on id
     public function setRow($id, $row, $table = null) {
         if(!empty($row)) {
