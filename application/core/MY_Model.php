@@ -110,7 +110,7 @@ class MY_model extends CI_Model {
     }
 
     // Method to generically get rows from the database based on our current table and various options
-    public function getRows($where, $table = null, $order = null, $limit = null) {
+    public function getRows($where = array(), $table = null, $order = null, $limit = null) {
         if(!empty($order)) {
             $this->db->order_by($order);
         }
@@ -121,7 +121,11 @@ class MY_model extends CI_Model {
                 $this->db->limit($limit[0], $limit[1]);
             }
         }
-        $query = $this->db->get_where($this->getTableName($table), $where);
+        if(!empty($where)) {
+            $this->db->where($where);
+        }
+
+        $query = $this->db->get($this->getTableName($table));
         return $query->result_array();
     }
 
