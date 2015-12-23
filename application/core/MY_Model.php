@@ -44,6 +44,15 @@ class MY_model extends CI_Model {
         }
     }
 
+    // Helper function to escape manually when needed
+    public function escape($str, $like = false) {
+        if($like) {
+            return $this->db->escape_like_str($str);
+        } else {
+            return $this->db->escape_str($str);
+        }
+    }
+
     // Function to disable our first line current request caching
     public function disableCache() {
         $this->cache_lookups = false;
